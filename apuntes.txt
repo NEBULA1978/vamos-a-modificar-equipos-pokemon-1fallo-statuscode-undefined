@@ -1,0 +1,7 @@
+1º
+  npm init -y
+2º
+  npm i express
+3º
+  npm install(instalamos todas la librerias de expres)
+
