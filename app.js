@@ -2,5 +2,13 @@ const express = require('express')
 const app = express();
 const port = 3000;
 
+app.get('/', (req, res) => {
+  //req: es la request, la peticion
+  // res: es la respuesata
+  console.log(req);
+  res.status(200).send('Hello World!')
+});
 
-app.listen(port, () => { 'Server at port 3000' });
+app.listen(port, () => {
+  console.log('Server at port 3000');
+})
