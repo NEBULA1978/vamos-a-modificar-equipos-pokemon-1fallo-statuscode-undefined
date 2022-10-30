@@ -9,3 +9,16 @@ Video1 Empezamos
 
 Video 2 Definiendo url
 
+Viedo3 Test test test
+Para testear backend:
+npm install -D mocha chai
+
+Ejecutamos mocha:(test unitarios,siguiente video a endpoints)
+  ./node_modules/.bin/mocha
+  Añadimos en package.json en test la ruta de mocha:
+    "test": "./node_modules/.bin/mocha"
+
+Para ejecutar mochha:
+  npm run test
+
+
