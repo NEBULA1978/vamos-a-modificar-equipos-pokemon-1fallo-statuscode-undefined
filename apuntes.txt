@@ -21,4 +21,39 @@ Ejecutamos mocha:(test unitarios,siguiente video a endpoints)
 Para ejecutar mochha:
   npm run test
 
+Video 4 Endpoints:
+Para testear endpoints:
+  npm install chai-http
 
+video 5 testeando la auntentificacion
+
+  
+video 6 Utilizando passportid:
+  npm install -s passport-jwt
+  npm install jsonwebtoken
+
+me dafallo auth.js:
+
+TENGO QUE PONER EN JWT.IO EL MISMO NOMBRE QUE LA CLAVE CODICFICADA EN EL ARCHIVO APP.JS
+
+// Una funcion que recibe un objeto passport por parametro
+module.exports = passport => {
+    const opts = {
+        // OBJETO json de estrategia
+
+        // de donde saco el jwt es String: lo sacaras del header de autorizacion con jwt
+        jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("jwt"),
+        // Quiero que me utilices esta contraseña
+        secretOrKey: 'secretPassword' //TODO deberia estar en una variable de entorno
+    }
+    // OBJETO json de estrategia hacia arriba
+
+    // Creamos la estrategia
+    // Quiero que utilices un plugin concreto utilizando el jsonwebtoken
+    passport.use(new JwtStrategy(opts, (decoded, done) => {
+        console.log('decoded jwt', decoded);
+        return done(null, decoded);
+    }));
+    // Creamos la estrategia hacia arriba
+
+}
