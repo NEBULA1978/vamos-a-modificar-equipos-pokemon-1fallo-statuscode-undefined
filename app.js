@@ -1,9 +1,20 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const passport = require('passport');
-// var LocalStrategy = require('passport-local');
+const jwt = require('jsonwebtoken');
+
+
+const usersController = require('./controllers/users');
+usersController.registerUser('bettatech', '1234');
+// userController.registerUser('mastermind', '4321');
+
 require('./auth')(passport);
 
+
 const app = express();
+// Añadimos un middledvwers
+app.use(bodyParser.json());
+
 const port = 3000;
 
 app.get('/', (req, res) => {
@@ -14,9 +25,19 @@ app.get('/', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  res.status(200).json(
-    { token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.zX5MPQtbjoNAS7rpsx_hI7gqGIlXOQq758dIqyBVxxY' }
-  )
+  if (!req.body) {
+    return res.status(400).send('Missing data');
+  } else if (!req.body.user || !req.body.password) {
+    return res.status(400).json({ mesasge: 'Missing data' });
+  }
+  usersController.checkUserCredentials(req.body.user, req.body.password, (err, result) => {
+    if (err || !result) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+    const token = jwt.sign({ userId: result }, 'secretPassword');
+    res.status(200).json({ token: token });
+  })
+
 });
 
 app.post('/team/pokemons', () => {

@@ -5,6 +5,8 @@ chai.use(chaiHttp);
 
 const app = require("../app").app;
 
+
+
 describe("Suite de pruebas auth", () => {
   // Cuando la llamada no tiene correctamente la llave
   it("should return 401 when no jwt token available", (done) => {
@@ -19,6 +21,39 @@ describe("Suite de pruebas auth", () => {
 
     // Obtenemos el resultado esperado
   });
+
+  // Cuando la llamada no tiene correctamente la llave
+  it("should return 400 when no data is provided", (done) => {
+    // Cuando la llamada no tiene correctamente la llave
+    // Llamamos a la funcion para llamar a este endpoint
+    chai.request(app)
+      .post("/login")
+      .end((err, res) => {
+        chai.assert.equal(res.statusCode, 400);
+        done();
+      });
+
+    // Obtenemos el resultado esperado
+  });
+  // Cuando la llamada no tiene correctamente la llave
+  it("should return 200 and token for succseful login", (done) => {
+    // Cuando la llamada no tiene correctamente la llave
+    // Llamamos a la funcion para llamar a este endpoint
+    chai.request(app)
+      .post("/login")
+      .set('content-type', 'application/json')
+      .send({ user: 'bettatech', password: '1234' })
+      .end((err, res) => {
+        chai.assert.equal(res.statusCode, 200);
+        done();
+      });
+
+    // Obtenemos el resultado esperado
+  });
+
+
+
+
   // Cuando la llamada no tiene correctamente la llave
   it("should return 200 when jwt is valid", (done) => {
     // Cuando la llamada  tiene correctamente la llave
@@ -26,7 +61,10 @@ describe("Suite de pruebas auth", () => {
     chai.request(app)
       // REspuesta del login que esperamos
       .post("/login")
+      .set('content-type', 'application/json')
+      .send({ user: "bettatech", password: "1234" })
       .end((err, res) => {
+        chai.assert.equal(res.statusCode, 200);
         // CUando recibimos respuesta realizamos el get
         chai.request(app)
           .get("/team")
@@ -37,19 +75,8 @@ describe("Suite de pruebas auth", () => {
           });
       });
 
-    // Obtenemos el resultado esperado
-    // Cuando la llamada  tiene correctamente la llave
-    // Llamamos a la funcion para llamar a este endpoint
 
-    // Obtenemos el resultado esperado
   });
 });
 
-// Prohibido elususario no tiene autorizacion
-// Si tenemos una autorizacion pero el ususario no tiene permisos para realizar esa accion debe devolver 403
-// it('should return 403', (done) => {
-// Llamamos a la funcion
 
-// Obtenemos el resultado esperado
-
-// });
